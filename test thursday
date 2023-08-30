@@ -1,0 +1,375 @@
+xfreerdp /u:student /v:10.50.44.128 -dynamic-resolution +glyph-cache +clipboard
+verb-noun: 
+Get-item
+get-host
+get-command 
+get-verb
+get-command -noun (noun)
+get-process
+get-eventlog -logname -security -computername server -verb
+*get-help*
+*get-help (command)* -full = more in depth
+get-help (command) -full -showwindow
+get-help (command) -online = takes you to the online page
+get- help *log* 
+objects have properties and methods
+
+alias: another name for a cmdlet set-alias, remove-item, get-alias
+get-childitem = dir = ls
+set-alias edit notepad.exe =edit is now an alias for notpad
+remove-item alias:edit
+get-alias -definition get-childitem
+get-process | get-member
+(get-process)[] = index proccss info on index2
+(get-proccess).kill
+((get=process)[44]).kill()
+$_ = |
+get-service | format-table name, status
+the pipeline varibla becomes the value of what was put in and is used to call methods and properties
+write-host prints how it is 
+write-output can be sorted and change how its printed
+get-varible shows the varibles both defualt and build in
+$ specifics a varible:
+$x = 10
+to test tho see if a varible is present its test-path variable:d
+ and to remove the variable its del varible:"name"
+remove-varible:"name"
+$var1 = "john"
+write-host "hello $var1" = prints out with the value of $var1
+write-host 'hello $var1' = prints out literal $var1
+get-childitem env: 
+$env:HOMEPATH
+(get-process).GetType() = how to see the type
+$var = read-host; ([int32]$var).GetType() = shows the type and type cast it
+
+
+
+    Ensure that you have the latest copy of help by updating your help system.
+update-help
+
+    Which cmdlets deal with the viewing/manipulating of processes?
+get-process
+    Display a list of services installed on your local computer.
+get-service
+    What cmdlets are used to write or output objects or text to the screen?
+write-host
+write-output
+    What cmdlets can be used to create, modify, list, and delete variables?
+get-variable, set-variable, remove-variable
+    What cmdlet can be used, other than Get-Help, to find and list other cmdlets?
+get-command
+    Find the cmdlet that is used to prompt the user for input.
+read-host
+
+
+
+    Display a list of running processes.
+get-process
+
+    Display a list of all running processes that start with the letter "s".
+get-process -name s*
+    Find the cmdlet and its purpose for the following aliases:
+
+        gal
+get-alias
+        dir
+get-childitem
+        echo
+write-output
+        ?
+where-object
+        %
+foreach-object
+        ft
+format table
+    Display a list of Windows Firewall Rules.
+Get-NetFirewallRule
+    Create a new alias called "gh" for the cmdlet "Get-Help"
+set-alias gh get-help
+
+
+
+
+    Create a variable called "var1" that holds a random number between 25-50.
+$var1= get-random -minimum 25 -maximum 50
+
+    Create a variable called "var2" that holds a random number between 1-10.
+$var2 = 9
+    Create a variable called "sum" that holds the sum of var1 and var2.
+$sum = $var1 + $var2
+    Create a variable called "sub" that holds the difference of var1 and var2.
+$sub = $var1 - $var2
+    Create a variable called "prod" that holds the product of var1 and var2.
+$prod = $var1 * $var2
+    Create a variable called "quo" that holds the quotient of var1 and var2.
+$quo = $var1 / $var2
+    Replace the variables in text with their values in the following format:
+
+          "$var1 * $var2 = $prod"
+
+    Replace the variables in text with their values in the following format:
+
+         "$var1 * $var2 = $prod"
+
+    Replace the variables in text with their values in the following format:
+
+        "$var1 * $var2 = $prod"
+
+    Replace the variables in text with their values in the following format:
+
+          "$var1 * $var2 = $prod"
+scritp block is a collection of cmdlets:
+$myblock ={ get-service | format-table name,status }
+
+to execute its & $myblock
+code block vs varible is that a code block has {}
+
+$a = 1
+$b = { 1 + 1 }
+$a += &$b = 3 -> $a so $a = 3
+
+sort-object -property length -descending = this sorts by length and has them descend
+options for sort-object = -property Extension
+                          -property length
+format-table -property name, descripton -autosize -wrap
+| get-member list all the propery methods
+-autosize = shows everything
+get-service | where-object{$_.Status -eq 'running'}
+get-service | fl *
+get-service | where-object{$_.Company -like 'micro*'} | format-table name,description, company
+get-process | where-object{$_.Name -notlike 'powershell*'} | sort-object id -descending
+
+like and not like are the only that can use *
+
+get-childitem *.txt | where-object{$_.Length -gt 100}
+
+
+
+    Display the start time of the earliest and latest running processes
+get-process | sort-object startime | select-object -first 1 -last 1
+get-process | where-object{$_.name -ne "idle"}  | sort-object -property startime | select-object 
+    Identify a cmdlet that returns the current date and time then using this cmdlet and Select-object, display only the current day of the week
+get-date | select-object dayofweek
+    Identify a cmdlet that displays a list of installed hotfixes.
+get-hotfix
+    Extend the expression to sort the list by install date, and display only the install date and hotfix ID.
+ Get-HotFix |  Select-Object InstalledOn, HotFixID
+    Extend the expression further, but this time sort by description, include description, hotfix ID, and install Date.
+ Get-HotFix |  sort-object description | Select-Object InstalledOn, HotFixID, Description
+
+
+
+1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3, | sort-object | get-unique
+
+get-childitem | measure-object Length -average -maximum -minimum -sum
+$array = 1, 2, 3, 4, 5 
+$sum= 0
+$aray | foreach-object { $sum += $_ }
+$sum
+
+compare-object $before $after -property length,name
+
+$mytruck = new-object object
+add-member -membertype noteproperty -name color -value red -inputobject $mytruck
+add-member -membertype noteproperty -in $mytruck -Na make -value ford
+add-member -inputobject $mytruck noteproperty model "f-150 raptor"
+$mytruck | add-member noteproperty cab supercrew
+
+$mytruck.cab
+
+
+Create an array containing a range with a random starting and stopping point. The starting point will be a random number from -10 through 0. The ending point will be a random number from 1 through 20.
+$text = 'here if the model number l}
+$pattern= 'MO(\d{3})"
+$test -match $pattern
+
+$matches[0]
+
+like allows you to set custom parameters to give an answer that " close enough"
+
+
+Add-Member -me NoteProperty -Name ComputerName -value WIN_OPS 
+
+ComputerName    : DESKTOP-5KJDVS2
+OperatingSystem : Microsoft Windows 10 Pro
+Version         : 10.0.17134
+Manufacturer    : Dell Inc.
+Disks           : {\\DESKTOP-                          5KJDVS2\root\cimv2:Win32_LogicalDisk.DeviceID="C:",
+                  \\DESKTOP-5KJDVS2\root\cimv2:Win32_LogicalDisk.DeviceID="D:"}
+
+
+
+^ = answer
+$cominfo = get-wmiobject win32_computersystem
+$osinfo = get-wmiobject win32_operatingsystem
+$biosinfo = get-wmiobject win32_bios
+$diskinfo = get-wmiobject win32_logicaldisk
+$my = new-object -type psobject
+$myobject | Add-member -membertype noteproperty -name computerName -value $compinfo.Name
+$myobject | Add-member -membertype noteproperty -name operatingsystem -value $osinfo.caption
+$myobject | Add-member -membertype noteproperty -name Version -value $osinfo.Version
+$myobject | Add-member -membertype noteproperty -name Manufaturer -value $biosinfo.Manufaturer
+$myobject | Add-member -membertype noteproperty -name Disk -value $diskinfo._path
+
+
+    Find and extract the model number from the provided lines of text. If there isn’t a model number then display to the user that a model number wasn’t found
+
+    Check both lines for model numbers and report individually the line and model number if found.
+
+Use the following variables for your script
+
+$line1 = "Do you have model number: MT5437 for john.doe@sharklasers.com?"
+$line2 = "What model number for john.doe@sharklasers.com?"
+$pattern = '[A-Za-z]{2}\d{2,5}'
+
+$line1,$line2 | % { if($_ -match "[A-Z]{2}[0-9]{4}") { $matches.values } else { 'model not found' }
+
+
+$nums = 1, 2, 3, 4, 5
+$nums | foreach-object{$_ * 2}
+
+foreach ($item in gci C:\ -recurse){$item.name}
+get-childItem C:\ -recurse | foreach-object{$_.name}
+
+foreach($num in 1..5){$num * 2}
+teams = "tigers", "Pistons", "Red Wings", "Lions"
+foreach($team in $teams) {"Detroit $team"}
+
+
+while(condition) {
+      codeblock
+}
+
+$num = 0
+while ($num -lt 3) {
+    $num
+    $num++
+}
+
+$var = "" 
+while($var -ne "Marines") {
+$var = read-host "which branch of the military is the best?"
+}
+
+$num = 0
+do { 
+  $num
+  $num++
+} while($num -lt 3)
+
+
+$num = 0 
+while ($num -lt 3) {
+    $num
+    $num++
+}
+
+
+$num = 0
+do{
+$num
+$num++
+}until($num -gt 3)
+
+
+for (intialization; condition; increment)
+{
+    code block to be executed.
+}
+
+for($num =1; $num -le 3; $num++) {$num}
+
+
+for($i = 0; $i -le 255; $i++) {
+write-host 192.168.0.$i
+}
+
+arrays are list of objects
+
+$x= get-process
+$x.count shows how many things are in it
+
+$x -is [array] will tell if its an array
+
+polymorphic array:
+$array2 = "world", "hello", 5, 10 (get-date)
+
+$array3=@()
+($array3).gettype()
+
+$array = -5..10
+$array [-1] = 10
+$array[$array.count-1]
+$array[4,-1,2] -> will display the index you listed
+$array[4..$array.lenght] -> sliced array
+
+$jagarray = "joe", "jim", "jan", (1, ('apple', 'pear'), 3), "jay"
+to get pear you call the index of the array [3] whcih gives you (1, ('apple', 'pear'), 3)
+then you [1] which is the index of ('apple', 'pear') 
+then call the index [1] and you will get pear so it should look like $agarray [3][1][1] to get pear
+
+
+
+$taregtingarray = @( 
+  (35.7219, 51.3347, "tehran")
+  (39.9042, 116.4074, "bejing")
+  (39.0738, 125.8198, "pyongyang")
+  (33.5138, 36.2765, "damascus")
+)
+$targetarray [0][1]
+
+foreach ($line in $TargetingArray) {
+  if ($line[2] -eq 'Bejing') {
+      write-out $line
+  }
+}
+
+$mylist = @{First = "john"; Last= "doe"; mid = "bon"; Age = 35}
+$mylist
+
+
+
+$mylist = @{First = "john"; Last= "doe"; mid = "bon"; Age = 35}
+$mylist
+$mylist.Date = get-date
+$mylist["location"] = "France"
+$mylist.remove("location")
+
+
+"text `'quotation mark`""
+
+` is how to escape special characters 
+
+replace: 
+"hello John" -replace "John", "world"
+
+
+"cat", "dog" -join "|" the | what goes between that can be anything 
+cat|dog
+
+function test-it {
+              'hello world!'
+}
+
+function test-me($value) {
+  if($value) [
+write-host -foregroundercolor green "true"
+}
+else { 
+write-host -foregroundcolor red "false"
+}
+}
+
+
+function test-func {
+param( 
+  $param1='Default value 1', $param2='Default value 2'
+)
+"you entered $param1 and $param2"
+}
+
+funtion test-me {
+param (
+  [parameter(mandatory=$true)]
+$var
+}
