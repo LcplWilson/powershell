@@ -338,7 +338,7 @@ $mylist.remove("location")
 
 "text `'quotation mark`""
 
-` is how to escape special characters 
+` is how to escape special character
 
 replace: 
 "hello John" -replace "John", "world"
@@ -371,7 +371,4 @@ param(
 funtion test-me {
 param (
   [parameter(mandatory=$true)]
-$var
-}
-
 
